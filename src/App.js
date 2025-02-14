@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import BookAppointment from "./pages/BookAppointment";
 import MyAppointments from "./pages/MyAppointments";
+import AddSlot from "./pages/AddSlot";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/book" element={<ProtectedRoute><BookAppointment /></ProtectedRoute>} />
                 <Route path="/appointments" element={<ProtectedRoute><MyAppointments /></ProtectedRoute>} />
+                <Route path="/add-slot" element={<ProtectedRoute><AddSlot /></ProtectedRoute>} />
             </Routes>
         </BrowserRouter>
     );
