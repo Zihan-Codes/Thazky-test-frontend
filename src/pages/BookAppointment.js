@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Button, Container, Typography, Grid, Box, Alert } from "@mui/material";
 import API from "../services/api";
 
 const BookAppointment = () => {
@@ -42,35 +43,62 @@ const BookAppointment = () => {
     };
 
     return (
-        <div>
-            <h2>Book Appointment</h2>
-            <div>
-                {message && <p>{message}</p>}
-                <div>
-                    <h3>Available Slots</h3>
-                    {slots.length > 0 ? (
-                        <div>
-                            {slots.map((slot) => (
-                                <div key={slot.id}>
-                                    <button
-                                        onClick={() => setSelectedSlot(slot)}
-                                        style={{
-                                            backgroundColor:
-                                                selectedSlot?.id === slot.id ? "green" : "lightgray",
-                                        }}
-                                    >
-                                        {slot.date} - {slot.timeSlot}
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <p>No available slots</p>
-                    )}
-                </div>
-                <button onClick={handleBooking}>Book Appointment</button>
-            </div>
-        </div>
+        <Container maxWidth="sm" sx={{ marginTop: 4 }}>
+            <Typography variant="h4" align="center" gutterBottom>
+                Book Appointment
+            </Typography>
+
+            {/* Displaying messages */}
+            {message && (
+                <Alert severity={message.includes("Error") ? "error" : "success"} sx={{ marginBottom: 2 }}>
+                    {message}
+                </Alert>
+            )}
+
+            {/* Available Slots Section */}
+            <Typography variant="h6" gutterBottom>
+                Available Slots
+            </Typography>
+            {slots.length > 0 ? (
+                <Grid container spacing={2}>
+                    {slots.map((slot) => (
+                        <Grid item xs={12} sm={6} key={slot.id}>
+                            <Button
+                                variant="outlined"
+                                fullWidth
+                                onClick={() => setSelectedSlot(slot)}
+                                sx={{
+                                    backgroundColor: selectedSlot?.id === slot.id ? "green" : "lightgray",
+                                    color: selectedSlot?.id === slot.id ? "white" : "black",
+                                    "&:hover": {
+                                        backgroundColor: selectedSlot?.id === slot.id ? "darkgreen" : "gray",
+                                    },
+                                }}
+                            >
+                                {slot.date} - {slot.timeSlot}
+                            </Button>
+                        </Grid>
+                    ))}
+                </Grid>
+            ) : (
+                <Typography variant="body1" color="textSecondary" sx={{ marginTop: 2 }}>
+                    No available slots
+                </Typography>
+            )}
+
+            {/* Booking Button */}
+            <Box sx={{ marginTop: 4 }}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={handleBooking}
+                    disabled={!selectedSlot}
+                >
+                    Book Appointment
+                </Button>
+            </Box>
+        </Container>
     );
 };
 

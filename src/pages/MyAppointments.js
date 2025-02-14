@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Container, Typography, Card, CardContent, CardActions, Button, Alert, Grid } from "@mui/material";
 import API from "../services/api";
 
 const MyAppointments = () => {
@@ -30,34 +31,56 @@ const MyAppointments = () => {
                 },
             });
             setAppointments(appointments.filter((appointment) => appointment.id !== id));
+            setMessage("Appointment canceled successfully!");
         } catch (error) {
             setMessage("Error canceling appointment");
         }
     };
 
     return (
-        <div>
-            <h2>My Appointments</h2>
-            {message && <p>{message}</p>}
-            <div>
-                {appointments.length > 0 ? (
-                    <div>
-                        {appointments.map((appointment) => (
-                            <div key={appointment.id}>
-                                <p>
-                                    {appointment.date} - {appointment.timeSlot}
-                                </p>
-                                <button onClick={() => handleCancel(appointment.id)}>
-                                    Cancel Appointment
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <p>No appointments booked</p>
-                )}
-            </div>
-        </div>
+        <Container sx={{ marginTop: 4 }}>
+            <Typography variant="h4" align="center" gutterBottom>
+                My Appointments
+            </Typography>
+
+            {/* Displaying success/error messages */}
+            {message && (
+                <Alert severity={message.includes("Error") ? "error" : "success"} sx={{ marginBottom: 2 }}>
+                    {message}
+                </Alert>
+            )}
+
+            {/* Displaying appointments */}
+            {appointments.length > 0 ? (
+                <Grid container spacing={3}>
+                    {appointments.map((appointment) => (
+                        <Grid item xs={12} sm={6} md={4} key={appointment.id}>
+                            <Card sx={{ padding: 2 }}>
+                                <CardContent>
+                                    <Typography variant="h6" color="primary">
+                                        {appointment.date} - {appointment.timeSlot}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Button
+                                        variant="contained"
+                                        color="error"
+                                        onClick={() => handleCancel(appointment.id)}
+                                        sx={{ width: "100%" }}
+                                    >
+                                        Cancel Appointment
+                                    </Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            ) : (
+                <Typography variant="body1" color="textSecondary" sx={{ marginTop: 2 }}>
+                    No appointments booked.
+                </Typography>
+            )}
+        </Container>
     );
 };
 

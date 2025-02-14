@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { TextField, Button, Typography, Container, Box } from "@mui/material";  // Material-UI components
 import API from "../services/api";
 
 const Register = () => {
@@ -13,40 +14,52 @@ const Register = () => {
         try {
             await API.post("/auth/register", { name, email, password });
             alert("Registration successful. Please log in.");
-            navigate("/");
+            navigate("/");  // Navigate to login page after successful registration
         } catch (error) {
             alert("Registration failed");
         }
     };
 
     return (
-        <div>
-            <h2>Register</h2>
-            <form onSubmit={handleRegister}>
-                <input
-                    type="text"
-                    placeholder="Name"
+        <Container component="main" maxWidth="xs" sx={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 8 }}>
+            <Typography variant="h5" component="h2" gutterBottom>
+                Register
+            </Typography>
+            <Box component="form" onSubmit={handleRegister} sx={{ mt: 1 }}>
+                <TextField
+                    fullWidth
+                    label="Name"
+                    variant="outlined"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
+                    margin="normal"
                 />
-                <input
+                <TextField
+                    fullWidth
+                    label="Email"
                     type="email"
-                    placeholder="Email"
+                    variant="outlined"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
+                    margin="normal"
                 />
-                <input
+                <TextField
+                    fullWidth
+                    label="Password"
                     type="password"
-                    placeholder="Password"
+                    variant="outlined"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    margin="normal"
                 />
-                <button type="submit">Register</button>
-            </form>
-        </div>
+                <Button fullWidth variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
+                    Register
+                </Button>
+            </Box>
+        </Container>
     );
 };
 
